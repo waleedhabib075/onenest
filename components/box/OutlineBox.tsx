@@ -1,12 +1,18 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, Text, View, ViewStyle } from "react-native";
+import { Pressable, StyleSheet, Text, ViewStyle } from "react-native";
 
 interface Props {
   icon?: string;
   title?: string;
   subtitle?: string | number;
   style?: ViewStyle;
+  onPress?: () => void;
+  backgroundColor?: string;
+  borderColor?: string;
+  iconColor?: string;
+  titleColor?: string;
+  subtitleColor?: string;
 }
 
 export const OutlineBox: React.FC<Props> = ({
@@ -14,35 +20,53 @@ export const OutlineBox: React.FC<Props> = ({
   title,
   subtitle,
   style,
+  onPress,
+  backgroundColor = "white",
+  borderColor = "#E2E8F0",
+  iconColor = "#111827",
+  titleColor = "#111827",
+  subtitleColor = "#4A6CF7",
 }) => {
   return (
-    <View style={[styles.box, style]}>
-      {icon && <Ionicons name={icon as any} size={24} color="black" />}
-      {title && <Text style={styles.title}>{title}</Text>}
-      {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
-    </View>
+    <Pressable
+      style={[styles.box, { backgroundColor, borderColor }, style]}
+      onPress={onPress}
+    >
+      {icon && <Ionicons name={icon as any} size={24} color={iconColor} />}
+      {title && (
+        <Text style={[styles.title, { color: titleColor }]}>{title}</Text>
+      )}
+      {subtitle && (
+        <Text style={[styles.subtitle, { color: subtitleColor }]}>
+          {subtitle}
+        </Text>
+      )}
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   box: {
-    borderWidth: 3,
-    borderColor: "#839476",
-    borderRadius: 16,
-    paddingVertical: 16,
-    paddingHorizontal: 2,
+    borderWidth: 2,
+    borderRadius: 20,
+    paddingVertical: 18,
+    paddingHorizontal: 12,
     alignItems: "center",
     justifyContent: "center",
-    gap: 6,
+    shadowColor: "#111827",
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 2,
   },
   title: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "black",
+    marginTop: 6,
   },
   subtitle: {
     fontSize: 14,
     fontWeight: "500",
-    color: "#4A6CF7",
+    marginTop: 4,
   },
 });
